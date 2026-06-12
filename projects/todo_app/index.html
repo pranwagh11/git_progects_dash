@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Todo App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at top, #eef2ff, #f8fafc);
+    }
+    .glass {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .dark body {
+      background: radial-gradient(circle at top, #0f172a, #020617);
+    }
+       .back-btn{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:1000;
+
+    padding:10px 18px;
+    background:#00d4ff;
+    color:#000;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    background:#fff;
+    transform:translateY(-2px);
+}
+
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <a href="../../index.html" class="back-btn">← Back to Dashboard</a>
+<!-- MAIN -->
+<div class="flex-1 flex items-center justify-center p-6">
+
+  <div class="w-full max-w-2xl glass dark:bg-gray-900/70 dark:text-white rounded-3xl shadow-2xl p-7">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight">
+          🗂️ Todo Manager
+        </h1>
+        <p class="text-sm text-gray-500 dark:text-gray-300 mt-1">
+          Organize your tasks like a pro
+        </p>
+      </div>
+
+      <button onclick="toggleDarkMode()"
+        class="px-3 py-2 rounded-xl bg-white/70 dark:bg-gray-800 shadow hover:scale-105 transition">
+        🌙
+      </button>
+    </div>
+
+    <!-- INPUT -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+
+      <input id="taskInput"
+        placeholder="✍️ New task..."
+        class="px-3 py-2 rounded-xl border bg-white dark:bg-gray-800 focus:ring-2 focus:ring-indigo-400 outline-none"/>
+
+      <input id="dueDate" type="date"
+        class="px-3 py-2 rounded-xl border bg-white dark:bg-gray-800"/>
+
+      <button onclick="addTask()"
+        class="bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl px-3 py-2 transition shadow">
+        Add Task
+      </button>
+
+      <button onclick="clearCompleted()"
+        class="bg-red-500 hover:bg-red-600 text-white rounded-xl px-3 py-2 transition shadow">
+        Clear Done
+      </button>
+
+    </div>
+
+    <!-- SEARCH + FILTER -->
+    <div class="flex flex-col md:flex-row gap-3 mb-5">
+
+      <input id="searchInput" oninput="renderTasks()"
+        placeholder="🔍 Search tasks..."
+        class="flex-1 px-3 py-2 rounded-xl border bg-white dark:bg-gray-800"/>
+
+      <select id="filter" onchange="renderTasks()"
+        class="px-3 py-2 rounded-xl border bg-white dark:bg-gray-800">
+        <option value="all">All Tasks</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+      </select>
+
+    </div>
+
+    <!-- TASK LIST -->
+    <ul id="taskList" class="space-y-3"></ul>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center text-sm py-5 text-gray-500 dark:text-gray-400">
+  Made with ❤️ by <span class="font-semibold">Your Name</span>
+</footer>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+function save() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function addTask() {
+  const text = document.getElementById("taskInput").value.trim();
+  const due = document.getElementById("dueDate").value;
+  if (!text) return;
+
+  tasks.push({ text, due, done: false });
+  document.getElementById("taskInput").value = "";
+  document.getElementById("dueDate").value = "";
+
+  save();
+  renderTasks();
+}
+
+function toggleTask(i) {
+  tasks[i].done = !tasks[i].done;
+  save();
+  renderTasks();
+}
+
+function deleteTask(i) {
+  tasks.splice(i, 1);
+  save();
+  renderTasks();
+}
+
+function clearCompleted() {
+  tasks = tasks.filter(t => !t.done);
+  save();
+  renderTasks();
+}
+
+function isOverdue(task) {
+  if (!task.due) return false;
+  return new Date(task.due) < new Date() && !task.done;
+}
+
+function renderTasks() {
+  const list = document.getElementById("taskList");
+  const filter = document.getElementById("filter").value;
+  const search = document.getElementById("searchInput").value.toLowerCase();
+
+  list.innerHTML = "";
+
+  let filtered = tasks.filter(t => {
+    const match = t.text.toLowerCase().includes(search);
+    if (filter === "active") return !t.done && match;
+    if (filter === "completed") return t.done && match;
+    return match;
+  });
+
+  filtered.forEach(task => {
+    const i = tasks.indexOf(task);
+    const overdue = isOverdue(task);
+
+    const li = document.createElement("li");
+
+    li.className =
+      "flex justify-between items-center p-4 rounded-2xl shadow-sm border transition hover:shadow-md " +
+      (task.done
+        ? "bg-gray-100 dark:bg-gray-800 opacity-70"
+        : "bg-white dark:bg-gray-900") +
+      (overdue ? " border-red-400" : " border-gray-200 dark:border-gray-700");
+
+    li.innerHTML = `
+      <div class="flex items-start gap-3">
+
+        <input type="checkbox" ${task.done ? "checked" : ""}
+          onchange="toggleTask(${i})"
+          class="mt-1 w-4 h-4 accent-indigo-500"/>
+
+        <div>
+          <p class="${task.done ? 'line-through text-gray-400' : 'font-medium'}">
+            ${task.text}
+          </p>
+
+          <p class="text-xs mt-1 text-gray-500">
+            ${task.due ? "📅 " + task.due : "No due date"}
+            ${overdue ? " • ⚠️ Overdue" : ""}
+          </p>
+        </div>
+      </div>
+
+      <button onclick="deleteTask(${i})"
+        class="text-gray-400 hover:text-red-500 text-lg transition">
+        ✕
+      </button>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+function toggleDarkMode() {
+  document.documentElement.classList.toggle("dark");
+}
+
+renderTasks();
+</script>
+
+</body>
+</html>
