@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Projects Dashboard</title>
+
+<script src="tailwind-min.js"></script>
+
+<style>
+    *{
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,.3) transparent;
+    }
+
+    ::-webkit-scrollbar{
+        width:6px;
+    }
+
+    ::-webkit-scrollbar-track{
+        background:transparent;
+    }
+
+    ::-webkit-scrollbar-thumb{
+        background:rgba(255,255,255,.25);
+        border-radius:20px;
+    }
+
+    .glass{
+        backdrop-filter: blur(16px);
+        background: rgba(255,255,255,.08);
+        border:1px solid rgba(255,255,255,.12);
+    }
+</style>
+</head>
+
+<body class="h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-purple-950 to-fuchsia-900 text-white">
+
+<div class="h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="flex-shrink-0 px-6 py-6">
+
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold">
+                        🚀 My Projects Dashboard
+                    </h1>
+
+                    <p class="text-gray-400 mt-1">
+                        HTML • CSS • JavaScript Projects
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-3">
+
+                    <input
+                        type="text"
+                        id="search"
+                        placeholder="Search projects..."
+                        class="w-full md:w-80 px-4 py-3 rounded-xl text-black outline-none"
+                    >
+
+                    <div
+                        id="projectCount"
+                        class="glass px-4 py-3 rounded-xl font-semibold whitespace-nowrap"
+                    >
+                        6 Projects
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- Projects Scroll Area -->
+    <main class="flex-1 overflow-y-auto px-6 pb-6">
+
+        <div
+            id="projectContainer"
+            class="max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
+
+            <!-- Todo -->
+            <div class="card glass rounded-3xl p-5 transition hover:-translate-y-2 duration-300"
+                 data-name="todo list">
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-5xl">📝</div>
+
+                    <span class="status-badge"></span>
+                </div>
+
+                <h2 class="text-xl font-bold mb-2">
+                    Todo List
+                </h2>
+
+                <p class="text-gray-300 mb-5">
+                    Manage daily tasks with add, delete and complete features.
+                </p>
+
+                <a
+                    href="#"
+                    target="_blank"
+                    class="inline-block bg-fuchsia-500 hover:bg-fuchsia-400 px-5 py-2 rounded-xl font-semibold transition"
+                >
+                    View Project
+                </a>
+
+            </div>
+
+            <!-- Calculator -->
+            <div class="card glass rounded-3xl p-5 transition hover:-translate-y-2 duration-300"
+                 data-name="calculator">
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-5xl">🧮</div>
+
+                  <span class="status-badge"></span>
+                </div>
+
+                <h2 class="text-xl font-bold mb-2">
+                    Calculator
+                </h2>
+
+                <p class="text-gray-300 mb-5">
+                    Perform arithmetic calculations instantly.
+                </p>
+
+                <a
+                    href="projects/calculator/index.html"
+                    target="_blank"
+                    class="inline-block bg-fuchsia-500 hover:bg-fuchsia-400 px-5 py-2 rounded-xl font-semibold transition"
+                >
+                    View Project
+                </a>
+
+            </div>
+
+            <!-- Weather -->
+            <div class="card glass rounded-3xl p-5 transition hover:-translate-y-2 duration-300"
+                 data-name="weather app">
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-5xl">🌦️</div>
+
+                   <span class="status-badge"></span>
+                </div>
+
+                <h2 class="text-xl font-bold mb-2">
+                    Weather App
+                </h2>
+
+                <p class="text-gray-300 mb-5">
+                    Fetch live weather information using APIs.
+                </p>
+
+                <a
+                    href="projects/weather/index.html"
+                    target="_blank"
+                    class="inline-block bg-fuchsia-500 hover:bg-fuchsia-400 px-5 py-2 rounded-xl font-semibold transition"
+                >
+                    View Project
+                </a>
+
+            </div>
+
+            <!-- Digital Clock -->
+            <div class="card glass rounded-3xl p-5 transition hover:-translate-y-2 duration-300"
+                 data-name="digital clock">
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-5xl">⏰</div>
+
+                   <span class="status-badge"></span>
+                </div>
+
+                <h2 class="text-xl font-bold mb-2">
+                    Digital Clock
+                </h2>
+
+                <p class="text-gray-300 mb-5">
+                    Real-time clock using JavaScript Date object.
+                </p>
+
+                <a
+                    href="projects/clock/index.html"
+                    target="_blank"
+                    class="inline-block bg-fuchsia-500 hover:bg-fuchsia-400 px-5 py-2 rounded-xl font-semibold transition"
+                >
+                    View Project
+                </a>
+
+            </div>
+
+            <!-- Quiz -->
+            <div class="card glass rounded-3xl p-5 transition hover:-translate-y-2 duration-300"
+                 data-name="quiz app">
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-5xl">❓</div>
+
+                   <span class="status-badge"></span>
+                </div>
+
+                <h2 class="text-xl font-bold mb-2">
+                    Quiz App
+                </h2>
+
+                <p class="text-gray-300 mb-5">
+                    Interactive quiz application with score tracking.
+                </p>
+
+                <a
+                    href="#"
+                    target="_blank"
+                    class="inline-block bg-fuchsia-500 hover:bg-fuchsia-400 px-5 py-2 rounded-xl font-semibold transition"
+                >
+                    View Project
+                </a>
+
+            </div>
+
+            <!-- Password Generator -->
+            <div class="card glass rounded-3xl p-5 transition hover:-translate-y-2 duration-300"
+                 data-name="password generator">
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-5xl">🔐</div>
+
+                   <span class="status-badge"></span>
+                </div>
+
+                <h2 class="text-xl font-bold mb-2">
+                    Password Generator
+                </h2>
+
+                <p class="text-gray-300 mb-5">
+                    Generate strong secure passwords instantly.
+                </p>
+
+                <a
+                    href="#"
+                    target="_blank"
+                    class="inline-block bg-fuchsia-500 hover:bg-fuchsia-400 px-5 py-2 rounded-xl font-semibold transition"
+                >
+                    View Project
+                </a>
+
+            </div>
+
+        </div>
+
+        <div
+            id="noResults"
+            class="hidden text-center text-xl mt-10"
+        >
+            😢 No projects found
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+const search = document.getElementById("search");
+const cards = document.querySelectorAll(".card");
+const projectCount = document.getElementById("projectCount");
+const noResults = document.getElementById("noResults");
+
+
+document.querySelectorAll(".card").forEach(card => {
+
+    const link = card.querySelector("a");
+    const badge = card.querySelector(".status-badge");
+
+    if (link.getAttribute("href") === "#") {
+
+        badge.textContent = "In Progress";
+
+        badge.className =
+            "status-badge bg-amber-400 text-black px-3 py-1 rounded-full text-xs font-semibold";
+
+    } else {
+
+        badge.textContent = "Completed";
+
+        badge.className =
+            "status-badge bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-semibold";
+
+    }
+
+});
+
+search.addEventListener("input", () => {
+
+    const value = search.value.toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+
+        const name = card.dataset.name.toLowerCase();
+
+        if(name.includes(value)){
+            card.style.display = "block";
+            visible++;
+        }else{
+            card.style.display = "none";
+        }
+
+    });
+
+    projectCount.textContent =
+        `${visible} Project${visible !== 1 ? "s" : ""}`;
+
+    noResults.classList.toggle("hidden", visible !== 0);
+});
+</script>
+
+
+<footer class="flex-shrink-0 border-t border-white/10 px-6 py-3">
+    <div class="max-w-7xl mx-auto flex justify-between items-center text-sm text-gray-400">
+
+        <p>
+            © 2026 My Projects Dashboard
+        </p>
+
+        <p>
+            Built with ❤️ using HTML, Tailwind CSS & JavaScript
+        </p>
+
+    </div>
+</footer>
+</body>
+</html>
+
+
